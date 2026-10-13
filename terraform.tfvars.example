@@ -1,0 +1,47 @@
+
+aws_region = "ap-south-1"
+
+ami_id    = "ami-id"
+subnet_id = "subnet-id"
+
+instances = {
+  critical = {
+    instance_type = "t3.micro"
+    key_name      = "assessment-key-1"
+    root_volume   = { type = "gp3", size = 20 }
+    environment   = "assessment"
+    owner         = "Tanveer"
+  }
+
+  app = {
+    instance_type = "t3.small"
+    key_name      = "assessment-key-2"
+    root_volume   = { type = "gp2", size = 25 }
+    environment   = "assessment"
+    owner         = "Tanveer"
+  }
+
+  worker = {
+    instance_type = "t3.medium"
+    key_name      = "assessment-key-3"
+    root_volume   = { type = "io1", size = 60, iops = 3000 }
+    environment   = "assessment"
+    owner         = "Tanveer"
+  }
+
+  monitoring = {
+    instance_type = "t3.large"
+    key_name      = "assessment-key-4"
+    root_volume   = { type = "io2", size = 40, iops = 3000 }
+    environment   = "assessment"
+    owner         = "Tanveer"
+  }
+
+  utility = {
+    instance_type = "t2.micro"
+    key_name      = "assessment-key-5"
+    root_volume   = { type = "standard", size = 15 }
+    environment   = "assessment"
+    owner         = "Tanveer"
+  }
+}
