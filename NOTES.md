@@ -66,3 +66,26 @@ required identity-based permissions.
 
 Trusting roleB's exact ARN narrows the intended trust relationship
 to that specific role, supporting least privilege.
+
+## Task 4 — Least-Privilege CI Policy
+
+The custom CI policy allows the pipeline to authenticate to ECR and
+push Docker images to one specified repository. It permits registering
+and describing ECS task definitions and updating one specified ECS
+service. It also allows read-only access to one build-artifact S3 bucket.
+
+The policy deliberately excludes:
+- ECR repository creation and deletion.
+- Deleting ECS services or clusters.
+- Creating or modifying IAM users, roles, or policies.
+- Writing or deleting build artifacts in S3.
+- Access to unrelated ECR repositories, ECS services, and S3 buckets.
+
+ECR authentication requires Resource "*". ECS task-definition
+registration also requires Resource "*" because that action does not
+support resource-level permissions. The remaining supported resource
+permissions are scoped to specific resources.
+
+Depending on the deployment workflow, iam:PassRole may be required
+for the specific ECS task execution role and task role. If needed,
+it should be restricted to those role ARNs.
