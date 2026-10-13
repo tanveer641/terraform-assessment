@@ -148,3 +148,8 @@ resource "aws_iam_access_key" "developer_two" {
   user = aws_iam_user.developer_two.name
 }
 
+
+resource "aws_iam_group_policy_attachment" "group2_admin" {
+  group      = aws_iam_group.group2.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}

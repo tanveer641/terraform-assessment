@@ -89,3 +89,38 @@ permissions are scoped to specific resources.
 Depending on the deployment workflow, iam:PassRole may be required
 for the specific ECS task execution role and task role. If needed,
 it should be restricted to those role ARNs.
+
+## Task 5 — Find and Fix the Bug
+
+### Original Bug
+
+The original trust policy used this principal:
+
+arn:aws:iam::000000000000:user/roleB
+
+This ARN identifies an IAM user named roleB. However, roleB is
+defined as an IAM role in Account A, not an IAM user.
+
+AWS therefore cannot match the intended role principal correctly,
+and the cross-account AssumeRole trust relationship will fail.
+
+### Correction
+
+The correct principal is:
+
+arn:aws:iam::000000000000:role/roleB
+
+The corrected trust policy explicitly trusts roleB from Account A.
+
+### Additional Least-Privilege Correction
+
+The original roleC permissions policy granted s3:* on Resource "*",
+which would allow access to all S3 buckets and objects permitted by
+that role's policy.
+
+The corrected policy restricts S3 actions to the specified bucket
+ARN and its object ARNs.
+
+The trust policy controls who can assume roleC. The role's
+permissions policy controls what the assumed role can do.
+Both must be configured correctly for secure cross-account access.
